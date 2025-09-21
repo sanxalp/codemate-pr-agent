@@ -1,0 +1,19 @@
+{
+  "summary": "Basic analysis completed. AI service unavailable, using rule-based analysis.",
+  "issues": [
+    {
+      "type": "info",
+      "file": "general",
+      "line": null,
+      "message": "AI analysis unavailable, performed basic checks",
+      "suggestion": "Ensure proper error handling and testing"
+    }
+  ],
+  "score": 75,
+  "recommendations": [
+    "Add comprehensive unit tests",
+    "Ensure proper error handling",
+    "Follow coding standards",
+    "Add documentation for new features"
+  ]
+}
