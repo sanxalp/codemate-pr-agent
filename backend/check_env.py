@@ -9,7 +9,7 @@ def check_environment():
     """Check if environment is properly configured"""
     load_dotenv()
     
-    print("🔍 Environment Configuration Check")
+    print("Environment Configuration Check")
     print("=" * 40)
     
     # Required variables
@@ -28,33 +28,33 @@ def check_environment():
     all_good = True
     
     # Check required variables
-    print("\n📋 Required Configuration:")
+    print("\n[Required] Required Configuration:")
     for var, description in required_vars.items():
         value = os.getenv(var)
         if value:
             masked_value = value[:8] + "..." if len(value) > 8 else "***"
-            print(f"✅ {var}: {masked_value}")
+            print(f"[OK] {var}: {masked_value}")
         else:
-            print(f"❌ {var}: Not set - {description}")
+            print(f"[ERROR] {var}: Not set - {description}")
             all_good = False
     
     # Check optional variables
-    print("\n🔧 Optional Configuration:")
+    print("\n[Optional] Optional Configuration:")
     for var, description in optional_vars.items():
         value = os.getenv(var)
         if value:
             masked_value = value[:8] + "..." if len(value) > 8 else "***"
-            print(f"✅ {var}: {masked_value}")
+            print(f"[OK] {var}: {masked_value}")
         else:
-            print(f"⚠️  {var}: Not set - {description}")
+            print(f"[WARN] {var}: Not set - {description}")
     
     # Summary
     print("\n" + "=" * 40)
     if all_good:
-        print("🎉 Environment is properly configured!")
+        print("[SUCCESS] Environment is properly configured!")
         print("You can now start the backend server.")
     else:
-        print("❌ Environment configuration incomplete.")
+        print("[ERROR] Environment configuration incomplete.")
         print("Please set the required variables in your .env file.")
         print("See .env.example for reference.")
     

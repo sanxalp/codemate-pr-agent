@@ -1,5 +1,5 @@
 // Test the frontend API route
-const frontendApiUrl = "http://localhost:3001/api/review-pr";
+const frontendApiUrl = "http://localhost:3000/api/review-pr";
 
 // Test data
 const testData = {

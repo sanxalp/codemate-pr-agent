@@ -1,163 +1,76 @@
-# PR Review Agent Backend
+# PR Review Agent - Backend with Flask UI
 
-AI-powered pull request review agent that works with GitHub, GitLab, and Bitbucket.
+This directory contains the backend implementation of the PR Review Agent with a new Flask-based web UI.
 
 ## Features
 
-- 🔍 Multi-platform support (GitHub, GitLab, Bitbucket)
-- 🤖 AI-powered code analysis using OpenAI GPT
-- 📊 Code quality scoring (0-100)
-- 🐛 Issue detection (errors, warnings, info)
-- 💡 Actionable recommendations
-- 🏗️ Modular architecture
+- REST API for analyzing pull requests from GitHub, GitLab, and Bitbucket
+- Web UI for submitting PR URLs and viewing feedback
+- Integration with OpenAI for code review analysis
+- Support for multiple git providers
 
-## Quick Start
+## Requirements
 
-1. **Install dependencies:**
+- Python 3.7+
+- OpenAI API key
+- Git provider tokens (optional but recommended)
 
-   ```bash
+## Installation
+
+1. Install the required packages:
+
+   ```
    pip install -r requirements.txt
    ```
 
-2. **Set up environment variables:**
-
-   ```bash
+2. Set up environment variables by copying `.env.example` to `.env` and filling in your API keys:
+   ```
    cp .env.example .env
-   # Edit .env with your API keys
    ```
 
-3. **Start the server:**
+## Usage
 
-   ```bash
+1. Start the backend server:
+
+   ```
    python start.py
    ```
 
-   Or manually:
+2. Open your browser and navigate to `http://localhost:8000` to access the web UI
 
-   ```bash
-   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-   ```
+3. Enter a valid PR URL in the form (e.g., https://github.com/facebook/react/pull/12345) and click "Review Pull Request"
 
-## Environment Variables
+4. The analysis will run in the background and the results will be displayed when ready
 
-Create a `.env` file with the following variables:
-
-```env
-# Required
-OPENAI_API_KEY=your_openai_api_key_here
-
-# Optional (for specific providers)
-GITHUB_TOKEN=your_github_token_here
-GITLAB_TOKEN=your_gitlab_token_here
-BITBUCKET_USERNAME=your_bitbucket_username
-BITBUCKET_APP_PASSWORD=your_bitbucket_app_password
-```
-
-### Getting API Keys
-
-- **OpenAI**: Get your API key from [OpenAI Platform](https://platform.openai.com/api-keys)
-- **GitHub**: Create a personal access token at [GitHub Settings](https://github.com/settings/tokens)
-- **GitLab**: Create a personal access token at [GitLab Settings](https://gitlab.com/-/profile/personal_access_tokens)
-- **Bitbucket**: Create an app password at [Bitbucket Settings](https://bitbucket.org/account/settings/app-passwords/)
+Note: Using placeholder URLs like "https://github.com/owner/repo/pull/123" will result in error messages since these repositories don't exist.
 
 ## API Endpoints
 
-### POST /analyze
+- `POST /analyze` - Submit a PR URL for analysis
+- `GET /feedback` - Get the latest analysis feedback
+- `GET /health` - Health check endpoint
 
-Analyze a pull request and generate feedback.
+## Environment Variables
 
-**Request:**
+- `OPENAI_API_KEY` - Required for AI analysis
+- `GITHUB_TOKEN` - Optional, for GitHub API access
+- `GITLAB_TOKEN` - Optional, for GitLab API access
+- `BITBUCKET_USERNAME` - Optional, for Bitbucket API access
+- `BITBUCKET_APP_PASSWORD` - Optional, for Bitbucket API access
 
-```json
-{
-  "prUrl": "https://github.com/owner/repo/pull/123"
-}
-```
+## How It Works
 
-**Response:**
-
-```json
-{
-  "message": "PR analysis completed",
-  "feedback": {
-    "summary": "Overall assessment...",
-    "score": 85,
-    "issues": [...],
-    "recommendations": [...]
-  }
-}
-```
-
-### GET /feedback
-
-Get the latest analysis feedback.
-
-**Response:**
-
-```json
-{
-  "summary": "Overall assessment...",
-  "score": 85,
-  "issues": [
-    {
-      "type": "warning",
-      "file": "src/main.py",
-      "line": 42,
-      "message": "Potential issue description",
-      "suggestion": "How to fix it"
-    }
-  ],
-  "recommendations": ["Add unit tests", "Improve error handling"]
-}
-```
-
-### GET /health
-
-Health check endpoint.
-
-## Architecture
-
-```
-backend/
-├── main.py              # FastAPI application
-├── start.py             # Startup script
-├── models/
-│   └── feedback.py      # Data models
-├── services/
-│   ├── git_providers.py # Git provider implementations
-│   └── pr_analyzer.py   # AI analysis logic
-└── requirements.txt     # Dependencies
-```
-
-## Supported Platforms
-
-- **GitHub**: `https://github.com/owner/repo/pull/123`
-- **GitLab**: `https://gitlab.com/owner/repo/-/merge_requests/123`
-- **Bitbucket**: `https://bitbucket.org/owner/repo/pull-requests/123`
+1. The user submits a PR URL through the web UI
+2. The backend fetches PR data from the git provider
+3. The PR data is analyzed using OpenAI
+4. Feedback is generated and stored
+5. The frontend polls for feedback and displays it when ready
 
 ## Development
 
 The backend is built with:
 
-- **FastAPI** for the web framework
-- **OpenAI** for AI-powered analysis
-- **Requests** for API calls to git providers
-- **Pydantic** for data validation
-
-## Error Handling
-
-The system includes comprehensive error handling:
-
-- Invalid URLs are rejected with helpful messages
-- API failures fall back to basic analysis
-- Missing credentials use dummy data for Bitbucket
-- Network errors are properly handled and reported
-
-## CORS Configuration
-
-The backend is configured to accept requests from:
-
-- `http://localhost:3000` (Next.js development)
-- `http://127.0.0.1:3000`
-
-Update the CORS settings in `main.py` for production deployment.
+- Flask for the web UI and API
+- FastAPI services for PR analysis (adapted for Flask)
+- OpenAI for code review analysis
+- Requests for API calls to git providers

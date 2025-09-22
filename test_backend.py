@@ -4,9 +4,9 @@ import json
 # Test the backend directly
 backend_url = "http://127.0.0.1:8000/analyze"
 
-# Test data
+# Test data - using a real GitHub PR URL for testing
 test_data = {
-    "prUrl": "https://github.com/owner/repo/pull/123"
+    "prUrl": "https://github.com/microsoft/vscode/pull/123456"
 }
 
 try:

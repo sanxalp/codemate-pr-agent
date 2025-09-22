@@ -50,7 +50,7 @@ def start_server():
     print("\nPress Ctrl+C to stop the server\n")
     
     try:
-        subprocess.run([sys.executable, "-m", "uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"])
+        subprocess.run([sys.executable, "app.py"])
     except KeyboardInterrupt:
         print("\n[STOPPED] Server stopped")
 
